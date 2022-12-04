@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-redis/redis/v9 v9.0.0-rc.2
+	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/viper v1.14.0
 	go.uber.org/zap v1.24.0

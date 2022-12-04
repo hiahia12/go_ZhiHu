@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -60,7 +61,48 @@ func setSecureCookie(c *Cookie, name, value string) {
 		SameSite: http.SameSite(1),
 	})
 }
+
+func getSecureCookie(c *Cookie, key string) (string, bool) {
+	cookie, err := c.Opt.Ctx.Request.Cookie(key)
+	if err != nil {
+		return "", false
+	}
+	val, err := url.QueryUnescape(cookie.Value)
+	if val == "" || err != nil {
+		return "", false
+	}
+	parts := strings.SplitN(val, "|", 3)
+	if len(parts) != 3 {
+		return "", false
+	}
+	vs := parts[0]
+	timestamp := parts[1]
+	sig := parts[2]
+
+	h := hmac.New(sha256.New, []byte(c.Secret))
+	_, _ = fmt.Fprintf(h, "%s%s", vs, timestamp)
+
+	if fmt.Sprintf("%02x", h.Sum(nil)) != sig {
+		return "", false
+	}
+	res, _ := base64.URLEncoding.DecodeString(vs)
+	return string(res), true
+}
 func (c *Cookie) Set(key string, value interface{}) {
+	bytes, _ := json.Marshal(value)
+	setSecureCookie(c, key, string(bytes))
+}
+
+func (c *Cookie) Get(key string, obj interface{}) bool {
+	tempDate, ok := getSecureCookie(c, key)
+	if !ok {
+		return false
+	}
+	_ = json.Unmarshal([]byte(tempDate), obj)
+	return true
+}
+
+func (c *Cookie) Remove(key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
 	setSecureCookie(c, key, string(bytes))
 }
