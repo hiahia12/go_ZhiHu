@@ -32,13 +32,14 @@ type Redis struct {
 }
 
 func (m *Mysql) GetDsn() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%sparseTime=True&loc=Local%%2FMelbourne",
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
 		m.Username,
 		m.Password,
 		m.Addr,
 		m.Port,
 		m.Db,
-		m.Charset)
+		m.Charset,
+	)
 
 }
 func (m *Mysql) GetConnMaxIdleTime() time.Duration {

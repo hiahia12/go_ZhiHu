@@ -31,7 +31,7 @@ func ViperSetup(path ...string) {
 		}
 	}
 
-	fmt.Printf("get config path: #{configPath}")
+	fmt.Printf("get config path: %s", configPath)
 
 	v := viper.New()
 	v.SetConfigFile(configPath)

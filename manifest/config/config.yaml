@@ -22,7 +22,7 @@ database:
     addr: 127.0.0.1
     port: 6379
     username: ''
-    password: password
+    password:
     db: 1
     poolSize: 10000
 
@@ -34,7 +34,7 @@ server:
   writeTimeout: 60s
 
 
-middle:
+middleware:
   jwt:
     secretKey: MSR2pH^N6dqqQ5Ns5x!eF4YWVpwzmb3@8RzphRFbEkRwLEra86v3LCB%PvGx$a$L
     expiresTime: 604800

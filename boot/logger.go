@@ -33,7 +33,7 @@ func LoggerSetup() {
 		SkipLineEnding: false,
 		LineEnding:     zapcore.DefaultLineEnding,
 		EncodeLevel:    zapcore.CapitalColorLevelEncoder,
-		EncodeTime:     nil,
+		EncodeTime:     CustomTimeEncoder,
 		EncodeDuration: zapcore.StringDurationEncoder,
 		EncodeCaller:   zapcore.FullCallerEncoder,
 	})
@@ -62,4 +62,14 @@ func LoggerSetup() {
 
 func CustomTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString(t.Format("[2006-01-02 15:04:05.000]"))
+}
+func getWriteSyncer(file string) zapcore.WriteSyncer {
+	lumberJackLogger := &lumberjack.Logger{
+		Filename:   file,                            // 日志保存位置
+		MaxSize:    global.Config.Logger.MaxSize,    // 日志文件最大大小 (MB)
+		MaxBackups: global.Config.Logger.MaxBackups, // 日志文件备份数量
+		MaxAge:     global.Config.Logger.MaxAge,     // 日志保存时间
+		Compress:   true,
+	}
+	return zapcore.AddSync(lumberJackLogger)
 }

@@ -21,6 +21,8 @@ func MysqlSetup() {
 	sqlDB, _ := db.DB()
 	sqlDB.SetConnMaxIdleTime(global.Config.Database.Mysql.GetConnMaxIdleTime())
 	sqlDB.SetConnMaxLifetime(global.Config.Database.Mysql.GetConnMaxLifeTime())
+	sqlDB.SetMaxIdleConns(global.Config.Database.Mysql.MaxIdleconns)
+	sqlDB.SetMaxOpenConns(global.Config.Database.Mysql.MaxOpenConns)
 	err = sqlDB.Ping()
 	if err != nil {
 		global.Logger.Fatal("connect to mysql db failed.", zap.Error(err))
@@ -35,7 +37,7 @@ func RedisSetup() {
 	config := global.Config.Database.Redis
 
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("#{config.Addr}:#{config.Port}"),
+		Addr:     fmt.Sprintf("%s:%s", config.Addr, config.Port),
 		Username: config.Username,
 		Password: config.Password,
 		DB:       config.Db,
