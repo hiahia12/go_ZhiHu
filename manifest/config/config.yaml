@@ -23,7 +23,7 @@ database:
     port: 6379
     username: ''
     password:
-    db: 1
+    db: 0
     poolSize: 10000
 
 

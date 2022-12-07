@@ -60,6 +60,7 @@ func (a *WriteApi) WriteQuestion(c *gin.Context) {
 		return
 	}
 	user := service2.User().User().GetUser(c, username)
+
 	questionSubject := &model.Question{
 		Question: question,
 		Askerid:  user.Id,
@@ -114,9 +115,54 @@ func (a *WriteApi) WriteAnswer(c *gin.Context) {
 	}
 	service2.User().User().WriteAnswer(c, answersubject)
 
-	c.JSON(http.StatusBadRequest, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"code": http.StatusOK,
 		"msg":  "write answer successfully",
+		"ok":   true,
+	})
+}
+
+func (a *WriteApi) WriteComment(c *gin.Context) {
+	username := c.PostForm("username")
+	comment := c.PostForm("comment")
+	answerid := c.PostForm("answerid")
+	if comment == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"msg":  "comment cannot be nil",
+			"ok":   false,
+		})
+		return
+	}
+	if username == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"msg":  "username cannot be nil",
+			"ok":   false,
+		})
+		return
+	}
+	if answerid == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"msg":  "answerid cannot be nil",
+			"ok":   false,
+		})
+		return
+	}
+	answerId, _ := strconv.ParseInt(answerid, 10, 64)
+
+	user := service2.User().User().GetUser(c, username)
+
+	commentsubject := &model.Comment{
+		Comment:  comment,
+		Answerid: answerId,
+		Writerid: user.Id,
+	}
+	service2.User().User().WriteComment(c, commentsubject)
+	c.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"msg":  "write comment successfully",
 		"ok":   true,
 	})
 }
