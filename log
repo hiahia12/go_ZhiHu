@@ -269,3 +269,92 @@
 [2022-12-07 18:49:48.217]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeQuestion	{"status": 400, "method": "POST", "path": "/api/user/writeQuestion", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "14.4781ms"}
 [2022-12-07 18:51:00.434]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getQuestion	{"status": 404, "method": "POST", "path": "/api/user/getQuestion", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
 [2022-12-07 18:51:05.410]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getQuestion	{"status": 200, "method": "GET", "path": "/api/user/getQuestion", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "1.3859ms"}
+[2022-12-07 23:52:25.563]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-07 23:52:25.601]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-07 23:52:25.603]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-07 23:53:30.017]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeAnswer	{"status": 200, "method": "POST", "path": "/api/user/writeAnswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "7.7962ms"}
+[2022-12-07 23:53:44.983]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getAnswer	{"status": 404, "method": "GET", "path": "/api/user/getAnswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-07 23:54:04.368]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getanswer	{"status": 200, "method": "GET", "path": "/api/user/getanswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "3.2263ms"}
+[2022-12-08 09:32:06.398]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 09:32:06.414]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 09:32:06.415]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 09:32:28.501]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeAnswer	{"status": 404, "method": "GET", "path": "/api/user/writeAnswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 09:32:33.364]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeAnswer	{"status": 200, "method": "POST", "path": "/api/user/writeAnswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "6.9047ms"}
+[2022-12-08 09:44:04.935]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeQuestion	{"status": 400, "method": "POST", "path": "/api/user/writeQuestion", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "18.5538ms"}
+[2022-12-08 09:46:56.222]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeAnswer	{"status": 200, "method": "POST", "path": "/api/user/writeAnswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "6.1882ms"}
+[2022-12-08 09:48:39.824]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 09:48:39.837]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 09:48:39.837]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 09:51:05.475]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 09:51:05.488]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 09:51:05.488]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 09:56:24.800]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeAnswer	{"status": 200, "method": "POST", "path": "/api/user/writeAnswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "9.64ms"}
+[2022-12-08 09:57:17.149]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 09:57:17.162]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 09:57:17.163]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 09:57:19.762]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeAnswer	{"status": 200, "method": "POST", "path": "/api/user/writeAnswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "4.7922ms"}
+[2022-12-08 09:58:04.838]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getanswer	{"status": 404, "method": "POST", "path": "/api/user/getanswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 09:58:07.839]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getanswer	{"status": 200, "method": "GET", "path": "/api/user/getanswer", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "1.8361ms"}
+[2022-12-08 09:58:25.189]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 09:58:25.200]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 09:58:25.201]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 10:00:46.550]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 404, "method": "GET", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:00:50.344]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 200, "method": "POST", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "16.8872ms"}
+[2022-12-08 10:01:27.790]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getComment	{"status": 404, "method": "GET", "path": "/api/user/getComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:01:31.159]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getcomment	{"status": 404, "method": "GET", "path": "/api/user/getcomment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:01:50.256]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 10:01:50.269]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 10:01:50.270]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 10:02:01.010]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getcomment	{"status": 200, "method": "GET", "path": "/api/user/getcomment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "721.2µs"}
+[2022-12-08 10:02:21.393]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getcomment	{"status": 200, "method": "GET", "path": "/api/user/getcomment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "574µs"}
+[2022-12-08 10:03:59.587]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 10:03:59.603]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 10:03:59.604]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 10:04:01.159]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getcomment	{"status": 200, "method": "GET", "path": "/api/user/getcomment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "647.7µs"}
+[2022-12-08 10:06:03.567]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 10:06:03.577]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 10:06:03.577]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 10:06:10.919]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getcomment	{"status": 200, "method": "GET", "path": "/api/user/getcomment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "531.2µs"}
+[2022-12-08 10:06:17.561]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getcomment	{"status": 200, "method": "GET", "path": "/api/user/getcomment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:06:42.057]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 10:06:42.069]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 10:06:42.069]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 10:06:44.350]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/getcomment	{"status": 200, "method": "GET", "path": "/api/user/getcomment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "2.06ms"}
+[2022-12-08 10:35:05.122]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 10:35:05.159]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 10:35:05.160]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 10:35:25.837]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeCommon	{"status": 404, "method": "POST", "path": "/api/user/writeCommon", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:35:29.357]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeCommon	{"status": 404, "method": "POST", "path": "/api/user/writeCommon", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:35:36.564]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writecommon	{"status": 404, "method": "POST", "path": "/api/user/writecommon", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:36:01.092]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeCommont	{"status": 404, "method": "POST", "path": "/api/user/writeCommont", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-08 10:36:06.323]	[31mERROR[0m	D:/go_ZhiHu/app/internal/service/user/user.go:148	query mysql record failed.	{"error": "Error 1054 (42S22): Unknown column 'answerid' in 'field list'", "table": "answer_subject"}
+[2022-12-08 10:36:06.324]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 500, "method": "POST", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "10.6617ms"}
+[2022-12-08 10:36:21.009]	[31mERROR[0m	D:/go_ZhiHu/app/internal/service/user/user.go:148	query mysql record failed.	{"error": "Error 1054 (42S22): Unknown column 'answerid' in 'field list'", "table": "answer_subject"}
+[2022-12-08 10:36:21.009]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 500, "method": "POST", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "1.3805ms"}
+[2022-12-08 10:36:22.886]	[31mERROR[0m	D:/go_ZhiHu/app/internal/service/user/user.go:148	query mysql record failed.	{"error": "Error 1054 (42S22): Unknown column 'answerid' in 'field list'", "table": "answer_subject"}
+[2022-12-08 10:36:22.887]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 500, "method": "POST", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "2.1222ms"}
+[2022-12-08 10:36:27.310]	[31mERROR[0m	D:/go_ZhiHu/app/internal/service/user/user.go:148	query mysql record failed.	{"error": "Error 1054 (42S22): Unknown column 'answerid' in 'field list'", "table": "answer_subject"}
+[2022-12-08 10:36:27.310]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 500, "method": "POST", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "1.3706ms"}
+[2022-12-08 10:37:35.031]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-08 10:37:35.046]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-08 10:37:35.047]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-08 10:37:38.282]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 200, "method": "POST", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "19.9716ms"}
+[2022-12-08 10:37:44.574]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeComment	{"status": 500, "method": "POST", "path": "/api/user/writeComment", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "8.2967ms"}
+[2022-12-09 17:37:02.542]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-09 17:37:02.564]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-09 17:37:02.565]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-09 17:37:25.993]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-09 17:37:26.018]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-09 17:37:26.018]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-09 17:37:49.657]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-09 17:37:49.674]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-09 17:37:49.675]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-09 17:37:56.295]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/login	{"status": 200, "method": "POST", "path": "/api/user/login", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "3.4143ms"}
+[2022-12-09 17:38:19.741]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/writeQuestion	{"status": 401, "method": "POST", "path": "/api/user/writeQuestion", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "0s"}
+[2022-12-09 18:06:07.366]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-09 18:06:07.399]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-09 18:06:07.400]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-09 18:07:36.615]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2022-12-09 18:07:36.633]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:33	initialize mysql successful
+[2022-12-09 18:07:36.634]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:56	initialize redis client successfully!
+[2022-12-09 18:08:31.047]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/login	{"status": 200, "method": "POST", "path": "/api/user/login", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.29.2", "errors": "", "cost": "8.1298ms"}

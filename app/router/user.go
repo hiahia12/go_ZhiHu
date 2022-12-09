@@ -15,7 +15,10 @@ func (r *UserRouter) InitUserSignRouter(router *gin.RouterGroup) gin.IRouter {
 		userRouter.POST("/register", userApi.Sign().Register)
 		userRouter.POST("/login", userApi.Sign().Login)
 		userRouter.GET("/getQuestion", userApi.Write().GetQuestions)
-		userRouter.POST("/writeQuestion", userApi.Write().WriteQuestion)
+		userRouter.GET("/getanswer", userApi.Write().GetAnswer)
+		userRouter.GET("/getcomment", userApi.Write().GetComment)
+		userRouter.POST("/writeAnswer", userApi.Write().WriteAnswer)
+		userRouter.POST("/writeComment", userApi.Write().WriteComment)
 	}
 	return userRouter
 }

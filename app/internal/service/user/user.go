@@ -124,14 +124,56 @@ func (s *SUser) GetAnswer(ctx context.Context, questionid int64) []model.AnswerS
 	return answers
 }
 
-func (s *SUser) GetComment(ctx context.Context, answerid int64) []model.Question {
-	questions := []model.Question{}
-	global.MysqlDB.WithContext(ctx).Table("question_subject").Find(&questions)
-	return questions
+func (s *SUser) GetComment(ctx context.Context, answerid int64) []model.Comment {
+	comment := []model.Comment{}
+	global.MysqlDB.WithContext(ctx).Table("comment_subject").Find(&comment)
+	return comment
 }
 
 func (s *SUser) GetUser(ctx context.Context, username string) model.UserSubject {
 	user := model.UserSubject{}
 	global.MysqlDB.WithContext(ctx).Table("user_subject").Where("username=?", username).First(&user)
 	return user
+}
+
+func (s *SUser) CheckAnswerIsExist(ctx context.Context, answerid int64) error {
+	answerSubject := &model.AnswerSubject{}
+	err := global.MysqlDB.WithContext(ctx).
+		Table("answer_subject").
+		Select("id").
+		Where("id = ?", answerid).
+		First(answerSubject).Error
+	if err != nil {
+		if err != gorm.ErrRecordNotFound {
+			global.Logger.Error("query mysql record failed.",
+				zap.Error(err),
+				zap.String("table", "answer_subject"),
+			)
+			return fmt.Errorf("internal err")
+		} else {
+			return fmt.Errorf("answer not found")
+		}
+	}
+	return nil
+}
+
+func (s *SUser) CheckQuestionIsExist(ctx context.Context, questionid int64) error {
+	questionsubject := &model.Question{}
+	err := global.MysqlDB.WithContext(ctx).
+		Table("question_subject").
+		Select("id").
+		Where("id = ?", questionid).
+		First(questionsubject).Error
+	if err != nil {
+		if err != gorm.ErrRecordNotFound {
+			global.Logger.Error("query mysql record failed.",
+				zap.Error(err),
+				zap.String("table", "answer_subject"),
+			)
+			return fmt.Errorf("internal err")
+		} else {
+			return fmt.Errorf("question not found")
+		}
+	}
+	return nil
 }

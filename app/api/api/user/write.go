@@ -22,8 +22,10 @@ func (a *WriteApi) GetQuestions(c *gin.Context) {
 	})
 }
 
-func (a *WriteApi) GetAnswer(c *gin.Context, questionid int64) {
-	answers := service2.User().User().GetAnswer(c, questionid)
+func (a *WriteApi) GetAnswer(c *gin.Context) {
+	questionid := c.PostForm("questionid")
+	questionId, _ := strconv.ParseInt(questionid, 10, 64)
+	answers := service2.User().User().GetAnswer(c, questionId)
 	c.JSON(http.StatusOK, gin.H{
 		"code": http.StatusOK,
 		"msg":  answers,
@@ -31,7 +33,9 @@ func (a *WriteApi) GetAnswer(c *gin.Context, questionid int64) {
 	})
 }
 
-func (a *WriteApi) GetComment(c *gin.Context, answerid int64) {
+func (a *WriteApi) GetComment(c *gin.Context) {
+	answerId := c.PostForm("answerid")
+	answerid, _ := strconv.ParseInt(answerId, 10, 64)
 	comments := service2.User().User().GetComment(c, answerid)
 	c.JSON(http.StatusOK, gin.H{
 		"code": http.StatusOK,
@@ -78,7 +82,6 @@ func (a *WriteApi) WriteAnswer(c *gin.Context) {
 	answer := c.PostForm("answer")
 	questionid := c.PostForm("questionid")
 	username := c.PostForm("username")
-
 	if answer == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
@@ -105,9 +108,27 @@ func (a *WriteApi) WriteAnswer(c *gin.Context) {
 	}
 
 	questionId, _ := strconv.ParseInt(questionid, 10, 64)
-
+	err := service2.User().User().CheckQuestionIsExist(c, questionId)
+	if err != nil {
+		if err.Error() == "internal err" {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusBadRequest,
+				"msg":  err.Error(),
+				"ok":   false,
+			})
+		} else if err.Error() == "answer not found" {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusBadRequest,
+				"msg":  err.Error(),
+				"ok":   false,
+			})
+		}
+		return
+	}
 	user := service2.User().User().GetUser(c, username)
-
+	print(answer)
+	print(questionId)
+	print(user.Id)
 	answersubject := &model.AnswerSubject{
 		Answer:     answer,
 		Writerid:   user.Id,
@@ -151,7 +172,23 @@ func (a *WriteApi) WriteComment(c *gin.Context) {
 		return
 	}
 	answerId, _ := strconv.ParseInt(answerid, 10, 64)
-
+	err := service2.User().User().CheckAnswerIsExist(c, answerId)
+	if err != nil {
+		if err.Error() == "internal err" {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusBadRequest,
+				"msg":  err.Error(),
+				"ok":   false,
+			})
+		} else if err.Error() == "answer not found" {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": http.StatusBadRequest,
+				"msg":  err.Error(),
+				"ok":   false,
+			})
+		}
+		return
+	}
 	user := service2.User().User().GetUser(c, username)
 
 	commentsubject := &model.Comment{
