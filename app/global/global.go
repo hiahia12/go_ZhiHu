@@ -2,14 +2,14 @@ package global
 
 import (
 	"github.com/go-redis/redis/v9"
+	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
 	"go_ZhiHu/app/internal/model/config"
-	"gorm.io/gorm"
 )
 
 var (
 	Config  *config.Config
 	Logger  *zap.Logger
-	MysqlDB *gorm.DB
+	MysqlDB *sqlx.DB
 	Rdb     *redis.Client
 )

@@ -18,12 +18,9 @@ type SUser struct{}
 var insUser SUser = SUser{}
 
 func (s *SUser) CheckUserIsExist(ctx context.Context, username string) error {
-	userSubject := &model.UserSubject{}
-	err := global.MysqlDB.WithContext(ctx).
-		Table("user_subject").
-		Select("username").
-		Where("username = ?", username).
-		First(userSubject).Error
+	usersubject := &model.UserSubject{}
+	sql := "SELECT username FROM user_subject where username = ?"
+	err := global.MysqlDB.Get(usersubject, sql, username)
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
 			global.Logger.Error("query mysql record failed.",
@@ -44,14 +41,17 @@ func (s *SUser) EncryptPassword(password string) string {
 }
 
 func (s *SUser) CreateUser(ctx context.Context, userSubject *model.UserSubject) {
-	global.MysqlDB.WithContext(ctx).Table("user_subject").Create(userSubject)
+	sql := "INSERT INTO user_subject(username,password) VALUES (?,?)"
+	_, err := global.MysqlDB.Exec(sql, userSubject.Username, userSubject.Password)
+	if err != nil {
+		return
+	}
 }
 
 func (s *SUser) CheckPassword(ctx context.Context, userSubject *model.UserSubject) error {
-	err := global.MysqlDB.WithContext(ctx).Table("user_subject").Where(&model.UserSubject{
-		Username: userSubject.Username,
-		Password: userSubject.Password,
-	}).First(userSubject).Error
+	user := &model.UserSubject{}
+	sql := "SELECT username FROM user_subject where username = ? and password = ?"
+	err := global.MysqlDB.Get(user, sql, userSubject.Username, userSubject.Password)
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
 			global.Logger.Error("query mysql record failed.",
@@ -100,49 +100,133 @@ func (s *SUser) GenerateToken(ctx context.Context, userSubject *model.UserSubjec
 	return tokenString, nil
 }
 
+func (s *SUser) WriteArticle(ctx context.Context, article *model.ArticleSubject) {
+	sql := "INSERT INTO article_subject(article,writerid,answer_number,like_number) VALUES (?,?,?,? )"
+	_, err := global.MysqlDB.Exec(sql, article.Article, article.Writerid, 0, 0)
+	if err != nil {
+		return
+	}
+}
+
 func (s *SUser) WriteQuestion(ctx context.Context, question *model.Question) {
-	global.MysqlDB.WithContext(ctx).Table("question_subject").Create(question)
+	sql := "INSERT INTO question_subject(question,askerid) VALUES (?,?)"
+	_, err := global.MysqlDB.Exec(sql, question.Question, question.Askerid)
+	if err != nil {
+		return
+	}
 }
 
 func (s *SUser) WriteAnswer(ctx context.Context, answer *model.AnswerSubject) {
-	global.MysqlDB.WithContext(ctx).Table("answer_subject").Create(answer)
+	question := model.Question{}
+	sql := "INSERT INTO answer_subject(answer,writerid,questionid) VALUES (?,?,?)"
+	_, err := global.MysqlDB.Exec(sql, answer.Answer, answer.Writerid, answer.Questionid)
+	if err != nil {
+		return
+	}
+	sqlStr := "SELECT id,question,answer_number,askerid,creat_time,update_time FROM question_subject where id = ?"
+	err1 := global.MysqlDB.Get(&question, sqlStr, answer.Questionid)
+	if err1 != nil {
+		fmt.Print(err)
+		return
+	}
+	sqlstr := "UPDATE question_subject set answer_number = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, question.AnswerNumber+1, answer.Questionid)
+	if err2 != nil {
+		fmt.Print(err)
+		return
+	}
 }
 
 func (s *SUser) WriteComment(ctx context.Context, comment *model.Comment) {
-	global.MysqlDB.WithContext(ctx).Table("comment_subject").Create(comment)
+	answer := model.AnswerSubject{}
+	sql := "INSERT INTO comment_subject(comment,writerid,answerid) VALUES (?,?,?)"
+	_, err := global.MysqlDB.Exec(sql, comment.Comment, comment.Writerid, comment.Answerid)
+	if err != nil {
+		fmt.Print(err)
+		return
+	}
+
+	sqlStr := "SELECT id,answer,writerid,questionid,likenumber,creat_time,update_time FROM answer_subject where id = ?"
+	err1 := global.MysqlDB.Get(&answer, sqlStr, comment.Answerid)
+	if err1 != nil {
+		fmt.Print(err)
+		return
+	}
+
+	sqlstr := "UPDATE answer_subject set comment_number = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, answer.CommentNumber+1, comment.Answerid)
+	if err2 != nil {
+		fmt.Print(err)
+		return
+	}
 }
 
 func (s *SUser) GetQuestions(ctx context.Context) []model.Question {
 	questions := []model.Question{}
-	global.MysqlDB.WithContext(ctx).Table("question_subject").Find(&questions)
+	sql := "SELECT id,question,answer_number,askerid,creat_time,update_time FROM question_subject where id > ?"
+	err := global.MysqlDB.Select(&questions, sql, 0)
+	if err != nil {
+		fmt.Print(err)
+		return nil
+	}
 	return questions
 }
 
 func (s *SUser) GetAnswer(ctx context.Context, questionid int64) []model.AnswerSubject {
 	answers := []model.AnswerSubject{}
-	global.MysqlDB.WithContext(ctx).Table("answer_subject").Where("questionid=?", questionid).Find(&answers)
+	sql := "SELECT id,answer,writerid,questionid,likenumber,creat_time,update_time FROM answer_subject where questionid = ?"
+	err := global.MysqlDB.Select(&answers, sql, questionid)
+	if err != nil {
+		fmt.Print(err)
+		return nil
+	}
 	return answers
 }
 
 func (s *SUser) GetComment(ctx context.Context, answerid int64) []model.Comment {
 	comment := []model.Comment{}
-	global.MysqlDB.WithContext(ctx).Table("comment_subject").Find(&comment)
+	sql := "SELECT id,comment,likenumber,answerid,writerid,creat_time,update_time FROM comment_subject where id = ?"
+	err := global.MysqlDB.Select(&comment, sql, answerid)
+	if err != nil {
+		fmt.Print(err)
+		return nil
+	}
 	return comment
 }
 
 func (s *SUser) GetUser(ctx context.Context, username string) model.UserSubject {
 	user := model.UserSubject{}
-	global.MysqlDB.WithContext(ctx).Table("user_subject").Where("username=?", username).First(&user)
+	sql := "SELECT id,username,password,creat_time,update_time FROM user_subject where username = ?"
+	_ = global.MysqlDB.Select(user, sql, username)
 	return user
+}
+
+func (s *SUser) GetArticles(ctx context.Context) []model.ArticleSubject {
+	articles := []model.ArticleSubject{}
+	sql := "SELECT id,article,answer_number,writerid,like_number,creat_time,update_time FROM article_subject where id > ?"
+	err := global.MysqlDB.Select(&articles, sql, 0)
+	if err != nil {
+		fmt.Print(err)
+		return nil
+	}
+	return articles
+}
+
+func (s *SUser) GetFollowQuestions(ctx context.Context, userid int64) []model.FollowQuestionSubject {
+	followquestions := []model.FollowQuestionSubject{}
+	sql := "SELECT id,userid,questionid,creat_time,update_time FROM followquestion_subject where id > ? AND  userid = ?"
+	err := global.MysqlDB.Select(&followquestions, sql, 0, userid)
+	if err != nil {
+		fmt.Print(err)
+		return nil
+	}
+	return followquestions
 }
 
 func (s *SUser) CheckAnswerIsExist(ctx context.Context, answerid int64) error {
 	answerSubject := &model.AnswerSubject{}
-	err := global.MysqlDB.WithContext(ctx).
-		Table("answer_subject").
-		Select("id").
-		Where("id = ?", answerid).
-		First(answerSubject).Error
+	sql := "SELECT id FROM answer_subject where id = ?"
+	err := global.MysqlDB.Get(answerSubject, sql, answerid)
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
 			global.Logger.Error("query mysql record failed.",
@@ -159,11 +243,8 @@ func (s *SUser) CheckAnswerIsExist(ctx context.Context, answerid int64) error {
 
 func (s *SUser) CheckQuestionIsExist(ctx context.Context, questionid int64) error {
 	questionsubject := &model.Question{}
-	err := global.MysqlDB.WithContext(ctx).
-		Table("question_subject").
-		Select("id").
-		Where("id = ?", questionid).
-		First(questionsubject).Error
+	sql := "SELECT id FROM question_subject where id = ?"
+	err := global.MysqlDB.Get(questionsubject, sql, questionid)
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
 			global.Logger.Error("query mysql record failed.",
@@ -174,6 +255,24 @@ func (s *SUser) CheckQuestionIsExist(ctx context.Context, questionid int64) erro
 		} else {
 			return fmt.Errorf("question not found")
 		}
+	}
+	return nil
+}
+
+func (s *SUser) AddFollowQuestion(ctx context.Context, followquestion *model.FollowQuestionSubject) error {
+	sql := "INSERT INTO followquestion_subject(userid,questionid) VALUES (?,?)"
+	_, err := global.MysqlDB.Exec(sql, followquestion.Userid, followquestion.Questionid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) AddFollowUser(ctx context.Context, followuser *model.FollowUserSubject) error {
+	sql := "INSERT INTO followquestion_subject(userid,followuserid) VALUES (?,?)"
+	_, err := global.MysqlDB.Exec(sql, followuser.Userid, followuser.FollowUserid)
+	if err != nil {
+		return err
 	}
 	return nil
 }

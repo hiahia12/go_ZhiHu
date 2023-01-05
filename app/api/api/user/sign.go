@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go_ZhiHu/app/global"
 	"go_ZhiHu/app/internal/model"
@@ -114,7 +115,7 @@ func (a *SignApi) Login(c *gin.Context) {
 	}
 
 	tokenString, err := service2.User().User().GenerateToken(c, userSubject)
-
+	fmt.Print(tokenString)
 	if err != nil {
 
 		switch err.Error() {

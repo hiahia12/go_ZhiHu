@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+var Id int64
+
 func JWTAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var token string
@@ -24,6 +26,7 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 				Config: cookieConfig.Cookie,
 				Ctx:    c,
 			})
+
 		ok := cookieWriter.Get("x-token", &token)
 		if token == "" || !ok {
 			response.Fail(c, http.StatusUnauthorized, 1, "not logged in")
@@ -37,6 +40,7 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		})
 
 		mc, err := j.ParseToken(token)
+		fmt.Print(mc)
 		if err != nil {
 			response.Fail(c, http.StatusBadRequest, 1, err.Error())
 			c.Abort()

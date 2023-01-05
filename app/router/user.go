@@ -17,8 +17,7 @@ func (r *UserRouter) InitUserSignRouter(router *gin.RouterGroup) gin.IRouter {
 		userRouter.GET("/getQuestion", userApi.Write().GetQuestions)
 		userRouter.GET("/getanswer", userApi.Write().GetAnswer)
 		userRouter.GET("/getcomment", userApi.Write().GetComment)
-		userRouter.POST("/writeAnswer", userApi.Write().WriteAnswer)
-		userRouter.POST("/writeComment", userApi.Write().WriteComment)
+
 	}
 	return userRouter
 }
@@ -31,7 +30,10 @@ func (r *UserRouter) InitUserWriteRouter(router *gin.RouterGroup) gin.IRouter {
 	userRouter := router.Group("/user")
 	userApi := api.User()
 	{
+		userRouter.POST("/writeArticle", userApi.Write().WriteArticle)
 		userRouter.POST("/writeQuestion", userApi.Write().WriteQuestion)
+		userRouter.POST("/writeAnswer", userApi.Write().WriteAnswer)
+		userRouter.POST("/writeComment", userApi.Write().WriteComment)
 
 	}
 	return userRouter

@@ -44,9 +44,46 @@ func (a *WriteApi) GetComment(c *gin.Context) {
 	})
 }
 
+func (a *WriteApi) GetArticle(c *gin.Context) {
+	articles := service2.User().User().GetArticles(c)
+	c.JSON(http.StatusOK, gin.H{
+		"code": http.StatusOK,
+		"msg":  articles,
+		"ok":   true,
+	})
+}
+
 func (a *WriteApi) WriteQuestion(c *gin.Context) {
 	question := c.PostForm("question")
-	username := c.PostForm("username")
+	//userid, err := jwt.GetUserID(c)
+	//fmt.Print(userid)
+	//if err != nil {
+	//	fmt.Print(err)
+	//	return
+	//}
+	////cookieConfig := global.Config.App.Cookie
+	//cookieWriter := cookie2.NewCookieWriter(cookieConfig.Secret,
+	//	cookie2.Option{
+	//		Config: cookieConfig.Cookie,
+	//		Ctx:    c,
+	//	})
+	//
+	//cookie.Opt.Config.Value = cookies
+	//cookie.Opt.Config.Name = "x-token"
+	//cookie.Opt.Config.Path = "/"
+	//cookie.Opt.Config.HttpOnly = cookieWriter.Opt.Config.HttpOnly
+	//cookie.Opt.Config.Domain = cookieWriter.Opt.Config.Domain
+	//cookie.Opt.Config.MaxAge = cookieWriter.Opt.Config.MaxAge
+	//cookie.Opt.Config.Secure = cookieWriter.Opt.Config.Secure
+	////cookie.Opt.Config.SameSite = http.SameSite(1)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{
+	//		"code": http.StatusBadRequest,
+	//		"msg":  err,
+	//		"ok":   false,
+	//	})
+	//	return
+	//}
 	if question == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
@@ -55,19 +92,10 @@ func (a *WriteApi) WriteQuestion(c *gin.Context) {
 		})
 		return
 	}
-	if username == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code": http.StatusBadRequest,
-			"msg":  "username cannot be nil",
-			"ok":   false,
-		})
-		return
-	}
-	user := service2.User().User().GetUser(c, username)
 
 	questionSubject := &model.Question{
 		Question: question,
-		Askerid:  user.Id,
+		Askerid:  1,
 	}
 	service2.User().User().WriteQuestion(c, questionSubject)
 
@@ -126,9 +154,6 @@ func (a *WriteApi) WriteAnswer(c *gin.Context) {
 		return
 	}
 	user := service2.User().User().GetUser(c, username)
-	print(answer)
-	print(questionId)
-	print(user.Id)
 	answersubject := &model.AnswerSubject{
 		Answer:     answer,
 		Writerid:   user.Id,
@@ -200,6 +225,41 @@ func (a *WriteApi) WriteComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": http.StatusOK,
 		"msg":  "write comment successfully",
+		"ok":   true,
+	})
+}
+
+func (a *WriteApi) WriteArticle(c *gin.Context) {
+	article := c.PostForm("article")
+	username := c.PostForm("username")
+	if article == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"msg":  "article cannot be nil",
+			"ok":   false,
+		})
+		return
+	}
+	if username == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": http.StatusBadRequest,
+			"msg":  "username cannot be nil",
+			"ok":   false,
+		})
+		return
+	}
+	user := service2.User().User().GetUser(c, username)
+
+	articleSubject := &model.ArticleSubject{
+		Article:  article,
+		Writerid: user.Id,
+	}
+
+	service2.User().User().WriteArticle(c, articleSubject)
+
+	c.JSON(http.StatusBadRequest, gin.H{
+		"code": http.StatusOK,
+		"msg":  "write article successfully",
 		"ok":   true,
 	})
 }

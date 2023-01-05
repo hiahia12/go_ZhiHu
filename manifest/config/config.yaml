@@ -59,6 +59,6 @@ app:
     secret: yWa6!tEAVtz2131234vcertve5%&t2mUgU!3XCM3PD85!XmM^tcQBwsWByWL
     domain: 'localhost'
     maxAge: 604800
-    secure: true
+    secure: false
     httpOnly: true
     sameSite: 1
