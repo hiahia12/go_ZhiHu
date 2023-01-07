@@ -35,6 +35,42 @@ func (s *SUser) CheckUserIsExist(ctx context.Context, username string) error {
 	return nil
 }
 
+func (s *SUser) CheckFavouriteExist(ctx context.Context, favouriteid int64) error {
+	favourite := &model.FavouriteSubject{}
+	sql := "SELECT id FROM favourite_subject where id = ?"
+	err := global.MysqlDB.Get(favourite, sql, favouriteid)
+	if err != nil {
+		if err != gorm.ErrRecordNotFound {
+			global.Logger.Error("query mysql record failed.",
+				zap.Error(err),
+				zap.String("table", "favourite_subject"),
+			)
+			return fmt.Errorf("internal err")
+		}
+	} else {
+		return fmt.Errorf("favourite already exit")
+	}
+	return nil
+}
+
+func (s *SUser) CheckQuestionExist(ctx context.Context, questionid int64) error {
+	favourite := &model.FavouriteSubject{}
+	sql := "SELECT id FROM favourite_subject where id = ?"
+	err := global.MysqlDB.Get(favourite, sql, questionid)
+	if err != nil {
+		if err != gorm.ErrRecordNotFound {
+			global.Logger.Error("query mysql record failed.",
+				zap.Error(err),
+				zap.String("table", "question_subject"),
+			)
+			return fmt.Errorf("internal err")
+		}
+	} else {
+		return fmt.Errorf("question already exit")
+	}
+	return nil
+}
+
 func (s *SUser) EncryptPassword(password string) string {
 	d := sha3.Sum224([]byte(password))
 	return hex.EncodeToString(d[:])
@@ -46,6 +82,15 @@ func (s *SUser) CreateUser(ctx context.Context, userSubject *model.UserSubject) 
 	if err != nil {
 		return
 	}
+}
+
+func (s *SUser) CreatFavourites(ctx context.Context, favourites *model.FavouriteSubject) error {
+	sql := "INSERT INTO user_subject(userid,favouritenumber,`public`,`name`) VALUES (?,?,?,?)"
+	_, err := global.MysqlDB.Exec(sql, favourites.Userid, favourites.FavouriteNumber, favourites.Name)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *SUser) CheckPassword(ctx context.Context, userSubject *model.UserSubject) error {
@@ -269,10 +314,122 @@ func (s *SUser) AddFollowQuestion(ctx context.Context, followquestion *model.Fol
 }
 
 func (s *SUser) AddFollowUser(ctx context.Context, followuser *model.FollowUserSubject) error {
-	sql := "INSERT INTO followquestion_subject(userid,followuserid) VALUES (?,?)"
+	sql := "INSERT INTO followuser_subject(userid,followuserid) VALUES (?,?)"
 	_, err := global.MysqlDB.Exec(sql, followuser.Userid, followuser.FollowUserid)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func (s *SUser) AddFollowFavourite(ctx context.Context, followfavourite *model.FollowFavouriteSubject) error {
+	sql := "INSERT INTO followuser_subject(userid,favouriteid) VALUES (?,?)"
+	_, err := global.MysqlDB.Exec(sql, followfavourite.Userid, followfavourite.Favouriteid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) AddFavouriteAnswer(ctx context.Context, favouriteanswer *model.MyFavouriteAnswerSubject) error {
+	sql := "INSERT INTO myfavouriteanswer_subject(userid,favouriteid,answerid) VALUES (?,?,?)"
+	_, err := global.MysqlDB.Exec(sql, favouriteanswer.Userid, favouriteanswer.Favouriteid, favouriteanswer.Answerid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) AddFavouriteArticle(ctx context.Context, favouritearticle *model.MyFavouriteArticleSubject) error {
+	sql := "INSERT INTO  myfavouritearticle_subject(userid,favouriteid,articleid) VALUES (?,?,?)"
+	_, err := global.MysqlDB.Exec(sql, favouritearticle.Userid, favouritearticle.Favouriteid, favouritearticle.Articleid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) AddFavouriteQuestion(ctx context.Context, favouritequestion *model.MyFavouriteQuestionSubject) error {
+	sql := "INSERT INTO  myfavouritearticle_subject(userid,favouriteid,questionid) VALUES (?,?,?)"
+	_, err := global.MysqlDB.Exec(sql, favouritequestion.Userid, favouritequestion.Favouriteid, favouritequestion.Questionid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) CancelFollowQuestion(ctx context.Context, followquestion *model.FollowQuestionSubject) error {
+	sql := "DELETE FROM followquestion_subject WHERE id = ?"
+	_, err := global.MysqlDB.Exec(sql, followquestion.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) CancelFollowUser(ctx context.Context, followuser *model.FollowUserSubject) error {
+	sql := "DELETE FROM followuser_subject WHERE id = ?"
+	_, err := global.MysqlDB.Exec(sql, followuser.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) CancelFollowFavourite(ctx context.Context, followfavourite *model.FollowFavouriteSubject) error {
+	sql := "DELETE FROM followfavourite_subject WHERE id = ?"
+	_, err := global.MysqlDB.Exec(sql, followfavourite.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) CancelFavouriteArticle(ctx context.Context, favouritearticleid int64) error {
+	sql := "DELETE FROM myavouritearticle_subject WHERE id = ?"
+	_, err := global.MysqlDB.Exec(sql, favouritearticleid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) CancelFavouriteAnswer(ctx context.Context, favouriteanswerid int64) error {
+	sql := "DELETE FROM myavouriteanswer_subject WHERE id = ?"
+	_, err := global.MysqlDB.Exec(sql, favouriteanswerid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) CancelFavouriteQuestion(ctx context.Context, favouritequestionid int64) error {
+	sql := "DELETE FROM myavouritequestion_subject WHERE id = ?"
+	_, err := global.MysqlDB.Exec(sql, favouritequestionid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) DeleteFavourites(ctx context.Context, favouritesid int64) error {
+	sql := "DELETE FROM favourites_subject WHERE id = ?"
+	_, err := global.MysqlDB.Exec(sql, favouritesid)
+	if err != nil {
+		return err
+	}
+
+	sql = "DELETE FROM myfavouriteanswer_subject WHERE favouriteid = ?"
+	_, err = global.MysqlDB.Exec(sql, favouritesid)
+	if err != nil {
+		return err
+	}
+
+	sql = "DELETE FROM myfavouritearticle_subject WHERE favouriteid = ?"
+	_, err = global.MysqlDB.Exec(sql, favouritesid)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }

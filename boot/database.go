@@ -188,6 +188,23 @@ func MysqlSetup() {
 		update_time datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
 		PRIMARY KEY (id)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;`
+	_, err = db.Exec(sql)
+	if err != nil {
+		global.Logger.Fatal("create table failed.", zap.Error(err))
+	}
+	sql = `CREATE TABLE IF NOT EXISTS myfavouritequestion_subject (
+		id bigint NOT NULL COMMENT '本次收藏的id',
+		questionid bigint(20) unsigned zerofill NOT NULL COMMENT '收藏的问题的id',
+		userid bigint(20) unsigned zerofill NOT NULL COMMENT '收藏者的id',
+		favouriteid bigint NOT NULL COMMENT '所属收藏夹的id',
+		creat_time datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+		update_time datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+		PRIMARY KEY (id)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci`
+	_, err = db.Exec(sql)
+	if err != nil {
+		global.Logger.Fatal("create table failed.", zap.Error(err))
+	}
 	global.MysqlDB = db
 
 	global.Logger.Info("initialize mysql successful")

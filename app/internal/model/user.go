@@ -106,3 +106,12 @@ type MyFavouriteAnswerSubject struct {
 	CreatTime   time.Time `json:"creat_time" form:"creat_time" db:"creat_time"`
 	UpdateTimr  time.Time `json:"update_time" form:"update_time" db:"update_time"`
 }
+
+type MyFavouriteQuestionSubject struct {
+	Id          int64     `json:"id" form:"id" db:"id"`
+	Questionid  int64     `json:"questionid" form:"questionid" db:"questionid"`
+	Favouriteid int64     `json:"favouriteid" form:"favouriteid" db:"favouriteid"`
+	Userid      int64     `json:"userid" form:"userid" db:"userid"`
+	CreatTime   time.Time `json:"creat_time" form:"creat_time" db:"creat_time"`
+	UpdateTimr  time.Time `json:"update_time" form:"update_time" db:"update_time"`
+}
