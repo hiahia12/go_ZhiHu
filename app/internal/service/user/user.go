@@ -433,3 +433,21 @@ func (s *SUser) DeleteFavourites(ctx context.Context, favouritesid int64) error 
 	return nil
 
 }
+
+func (s *SUser) ChangePassword(ctx context.Context, password string, userid int64) error {
+	sql := "UPDATE user_subject SET password =? where id=?"
+	_, err := global.MysqlDB.Exec(sql, password, userid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SUser) ChangeUsername(ctx context.Context, username string, userid int64) error {
+	sql := "UPDATE user_subject SET username =? where id=?"
+	_, err := global.MysqlDB.Exec(sql, username, userid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
