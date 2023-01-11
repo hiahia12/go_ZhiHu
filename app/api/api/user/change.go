@@ -13,7 +13,7 @@ type ChangApi struct {
 
 var insChange = ChangApi{}
 
-func (a *SignApi) ChangePassword(c *gin.Context) {
+func (a *ChangApi) ChangePassword(c *gin.Context) {
 	username := c.PostForm("username")
 	oldPassword := c.PostForm("oldPassword")
 	newPassword := c.PostForm("newPassword")
@@ -80,7 +80,7 @@ func (a *SignApi) ChangePassword(c *gin.Context) {
 	})
 }
 
-func (a *SignApi) ChangeUsername(c *gin.Context) {
+func (a *ChangApi) ChangeUsername(c *gin.Context) {
 	newUsername := c.PostForm("newUsername")
 	oldUsername := c.PostForm("oldUsername")
 	if newUsername == "" {

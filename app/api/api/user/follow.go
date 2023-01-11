@@ -22,7 +22,7 @@ func (a *FollowApi) GetFollowFavourites(c *gin.Context) {
 
 }
 
-func (a *FollowApi) AddFollowQuestions(c *gin.Context) {
+func (a *FollowApi) AddFollowQuestion(c *gin.Context) {
 	questionid := c.PostForm("questionid")
 	userid := c.PostForm("userid")
 	if userid == "" {

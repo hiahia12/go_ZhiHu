@@ -268,6 +268,70 @@ func (s *SUser) GetFollowQuestions(ctx context.Context, userid int64) []model.Fo
 	return followquestions
 }
 
+func (s *SUser) GetFavourites(ctx context.Context, userid int64) ([]model.FavouriteSubject, error) {
+	favourite := []model.FavouriteSubject{}
+	sql := "SELECT id,userid,favouritenumber,`public`,`name`,creat_time,update_time FROM favourite_subject where id > ? and userid = ?"
+	err := global.MysqlDB.Select(&favourite, sql, 0, userid)
+	if err != nil {
+		return nil, err
+	}
+	return favourite, err
+}
+
+func (s *SUser) GetFavourite(ctx context.Context, userid int64, favouriteid int64) ([]model.MyFavouriteQuestionSubject, []model.MyFavouriteArticleSubject, []model.MyFavouriteAnswerSubject, error) {
+	favouriteanswer := []model.MyFavouriteAnswerSubject{}
+	sql := "SELECT id,answerid,favouriteid,userid,creat_time,update_time FROM myfavouriteanswer_subject where userid = ? and favouriteid = ?"
+	err := global.MysqlDB.Select(&favouriteanswer, sql, userid, favouriteid)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	favouritearticle := []model.MyFavouriteArticleSubject{}
+	sql = "SELECT id,articleid,favouriteid,userid,creat_time,update_time FROM myfavouritearticle_subject where userid = ? and favouriteid = ?"
+	err = global.MysqlDB.Select(favouritearticle, sql, userid, favouriteid)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	favouritequestion := []model.MyFavouriteQuestionSubject{}
+	sql = "SELECT id,questionid,favouriteid,userid,creat_time,update_time FROM myfavouritequestion_subject where userid = ? and favouriteid = ?"
+	err = global.MysqlDB.Select(favouritequestion, sql, userid, favouriteid)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	return favouritequestion, favouritearticle, favouriteanswer, nil
+}
+
+func (s *SUser) GetFavouriteAnswer(ctx context.Context, userid int64, answerid int64, favouriteid int64) (*model.MyFavouriteAnswerSubject, error) {
+	favouriteanswer := &model.MyFavouriteAnswerSubject{}
+	sql := "SELECT id,answerid,favouriteid,userid,creat_time,update_time FROM myfavouriteanswer_subject where userid = ? and answerid = ? and favouriteid = ?"
+	err := global.MysqlDB.Select(favouriteanswer, sql, userid, answerid, favouriteid)
+	if err != nil {
+		return nil, err
+	}
+	return favouriteanswer, err
+}
+
+func (s *SUser) GetFavouriteArticle(ctx context.Context, userid int64, articleid int64, favouriteid int64) (*model.MyFavouriteArticleSubject, error) {
+	favouritearticle := &model.MyFavouriteArticleSubject{}
+	sql := "SELECT id,articleid,favouriteid,userid,creat_time,update_time FROM myfavouritearticle_subject where userid = ? and articleid = ? and favouriteid = ?"
+	err := global.MysqlDB.Select(favouritearticle, sql, userid, articleid, favouriteid)
+	if err != nil {
+		return nil, err
+	}
+	return favouritearticle, err
+}
+
+func (s *SUser) GetFavouriteQuestion(ctx context.Context, userid int64, questionid int64, favouriteid int64) (*model.MyFavouriteQuestionSubject, error) {
+	favouritequestion := &model.MyFavouriteQuestionSubject{}
+	sql := "SELECT id,questionid,favouriteid,userid,creat_time,update_time FROM myfavouritequestion_subject where userid = ? and questionid = ? and favouriteid = ?"
+	err := global.MysqlDB.Select(favouritequestion, sql, userid, questionid, favouriteid)
+	if err != nil {
+		return nil, err
+	}
+	return favouritequestion, err
+}
 func (s *SUser) CheckAnswerIsExist(ctx context.Context, answerid int64) error {
 	answerSubject := &model.AnswerSubject{}
 	sql := "SELECT id FROM answer_subject where id = ?"
@@ -358,6 +422,38 @@ func (s *SUser) AddFavouriteQuestion(ctx context.Context, favouritequestion *mod
 	return nil
 }
 
+func (s *SUser) AddLikeQuestion(ctx context.Context, questionid int64, userid int64) string {
+	cmd := global.Rdb.SAdd(ctx, fmt.Sprintf("questionid:%s", string(questionid)), userid)
+	if cmd.Val() == 0 {
+		return "like today"
+	}
+	return ""
+}
+
+func (s *SUser) AddLikeAnswer(ctx context.Context, answerid int64, userid int64) string {
+	err := global.Rdb.SAdd(ctx, fmt.Sprintf("answerid:%s", string(answerid)), userid)
+	if err != nil {
+		return "like today"
+	}
+	return ""
+}
+
+func (s *SUser) AddLikeComment(ctx context.Context, commentid int64, userid int64) string {
+	err := global.Rdb.SAdd(ctx, fmt.Sprintf("commentid:%s", string(commentid)), userid)
+	if err != nil {
+		return "like today"
+	}
+
+	return ""
+}
+
+func (s *SUser) AddLikeArticle(ctx context.Context, articleid int64, userid int64) string {
+	cmd := global.Rdb.SAdd(ctx, fmt.Sprintf("articleid:%s", string(articleid)), userid)
+	if cmd.Val() == 0 {
+		return "like today"
+	}
+	return ""
+}
 func (s *SUser) CancelFollowQuestion(ctx context.Context, followquestion *model.FollowQuestionSubject) error {
 	sql := "DELETE FROM followquestion_subject WHERE id = ?"
 	_, err := global.MysqlDB.Exec(sql, followquestion.Id)
@@ -410,6 +506,38 @@ func (s *SUser) CancelFavouriteQuestion(ctx context.Context, favouritequestionid
 		return err
 	}
 	return nil
+}
+
+func (s *SUser) CancelLikeQuestion(ctx context.Context, questionid int64, userid int64) string {
+	cmd := global.Rdb.SRem(ctx, fmt.Sprintf("questionid:%s", string(questionid)), userid)
+	if cmd.Val() == 0 {
+		return "question didn't be liked "
+	}
+	return ""
+}
+
+func (s *SUser) CancelLikeComment(ctx context.Context, commentid int64, userid int64) string {
+	cmd := global.Rdb.SRem(ctx, fmt.Sprintf("commentid:%s", string(commentid)), userid)
+	if cmd.Val() == 0 {
+		return "comment didn't be liked "
+	}
+	return ""
+}
+
+func (s *SUser) CancelLikeAnswer(ctx context.Context, answerid int64, userid int64) string {
+	err := global.Rdb.SRem(ctx, fmt.Sprintf("answerid:%s", string(answerid)), userid)
+	if err != nil {
+		return "answer didn't be liked"
+	}
+	return ""
+}
+
+func (s *SUser) CancelLikeArticle(ctx context.Context, articleid int64, userid int64) string {
+	cmd := global.Rdb.SRem(ctx, fmt.Sprintf("articleid:%s", string(articleid)), userid)
+	if cmd.Val() == 0 {
+		return "article didn't be liked"
+	}
+	return ""
 }
 
 func (s *SUser) DeleteFavourites(ctx context.Context, favouritesid int64) error {
