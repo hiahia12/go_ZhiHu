@@ -544,3 +544,11 @@
 [2023-01-07 00:08:45.767]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
 [2023-01-07 00:08:45.852]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:193	initialize mysql successful
 [2023-01-07 00:08:50.861]	[31mFATAL[0m	D:/go_ZhiHu/boot/database.go:211	connect to redis instance failed.	{"error": "dial tcp 127.0.0.1:6379: i/o timeout"}
+[2023-01-11 20:26:04.493]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2023-01-11 20:26:04.594]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:210	initialize mysql successful
+[2023-01-11 20:26:04.597]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:233	initialize redis client successfully!
+[2023-01-11 20:26:30.605]	[34mINFO[0m	D:/go_ZhiHu/boot/logger.go:60	initialize logger successfully!
+[2023-01-11 20:26:30.656]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:210	initialize mysql successful
+[2023-01-11 20:26:30.658]	[34mINFO[0m	D:/go_ZhiHu/boot/database.go:233	initialize redis client successfully!
+[2023-01-11 20:26:56.601]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/login	{"status": 200, "method": "POST", "path": "/api/user/login", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.30.0", "errors": "", "cost": "5.2774ms"}
+[2023-01-11 20:34:19.471]	[34mINFO[0m	D:/go_ZhiHu/app/internal/middleware/logger.go:23	/api/user/AddLikeQuestion	{"status": 200, "method": "POST", "path": "/api/user/AddLikeQuestion", "query": "", "ip": "::1", "user-agent": "PostmanRuntime/7.30.0", "errors": "", "cost": "1.0553ms"}

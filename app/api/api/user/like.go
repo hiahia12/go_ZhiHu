@@ -32,7 +32,7 @@ func (a *LikeApi) AddLikeAnswer(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	answerId, _ := strconv.ParseInt(answerid, 10, 64)
 	s := service2.User().User().AddLikeAnswer(c, answerId, userId) //写入数据库未完成
-	if s == "like today" {
+	if s == "error" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "like today",
@@ -67,7 +67,7 @@ func (a *LikeApi) AddLikeQuestion(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	questionId, _ := strconv.ParseInt(questionid, 10, 64)
 	s := service2.User().User().AddLikeQuestion(c, questionId, userId)
-	if s == "like today" {
+	if s == "error" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "like today",
@@ -102,7 +102,7 @@ func (a *LikeApi) AddLikeArticle(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	articleId, _ := strconv.ParseInt(articleid, 10, 64)
 	s := service2.User().User().AddLikeArticle(c, articleId, userId)
-	if s == "like today" {
+	if s == "error" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "like today",
@@ -137,7 +137,7 @@ func (a *LikeApi) AddLikeComment(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	commentId, _ := strconv.ParseInt(commentid, 10, 64)
 	s := service2.User().User().AddLikeComment(c, commentId, userId)
-	if s == "like today" {
+	if s == "error" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "like today",
@@ -172,7 +172,7 @@ func (a *LikeApi) CancelLikeAnswer(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	answerId, _ := strconv.ParseInt(answerid, 10, 64)
 	s := service2.User().User().CancelLikeAnswer(c, answerId, userId)
-	if s == "answer didn't be liked" {
+	if s == "error" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "answer didn't be liked",
@@ -207,7 +207,7 @@ func (a *LikeApi) CancelLikeQuestion(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	questionId, _ := strconv.ParseInt(questionid, 10, 64)
 	s := service2.User().User().CancelLikeQuestion(c, questionId, userId)
-	if s == "question didn't be liked " {
+	if s == "error " {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "question didn't be liked ",
@@ -242,7 +242,7 @@ func (a *LikeApi) CancelLikeArticle(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	articleId, _ := strconv.ParseInt(articleid, 10, 64)
 	s := service2.User().User().CancelLikeArticle(c, articleId, userId)
-	if s == "article didn't be liked" {
+	if s == "error" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "article didn't be liked",
@@ -277,7 +277,7 @@ func (a *LikeApi) CancelLikeComment(c *gin.Context) {
 	userId, _ := strconv.ParseInt(userid, 10, 64)
 	commentId, _ := strconv.ParseInt(commentid, 10, 64)
 	s := service2.User().User().CancelLikeComment(c, commentId, userId)
-	if s == "like today" {
+	if s == "error" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": http.StatusBadRequest,
 			"msg":  "comment didn't be liked ",

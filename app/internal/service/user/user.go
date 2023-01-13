@@ -423,34 +423,87 @@ func (s *SUser) AddFavouriteQuestion(ctx context.Context, favouritequestion *mod
 }
 
 func (s *SUser) AddLikeQuestion(ctx context.Context, questionid int64, userid int64) string {
+	var question = model.Question{}
 	cmd := global.Rdb.SAdd(ctx, fmt.Sprintf("questionid:%s", string(questionid)), userid)
 	if cmd.Val() == 0 {
-		return "like today"
+		return "error"
+	}
+	sqlStr := "SELECT id,question,answer_number,askerid,creat_time,update_time FROM question_subject where id = ?"
+	err1 := global.MysqlDB.Get(&question, sqlStr, questionid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE question_subject set like_number = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, question.LikeNumber+1, questionid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
 	}
 	return ""
 }
 
 func (s *SUser) AddLikeAnswer(ctx context.Context, answerid int64, userid int64) string {
+	var answer = model.AnswerSubject{}
 	err := global.Rdb.SAdd(ctx, fmt.Sprintf("answerid:%s", string(answerid)), userid)
 	if err != nil {
-		return "like today"
+		return "error"
+	}
+
+	sqlStr := "SELECT id,answer,comment_number,likenumber,comment_number,writerid,creat_time,update_time FROM answer_subject where id = ?"
+	err1 := global.MysqlDB.Get(&answer, sqlStr, answerid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE answer_subject set likenumber = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, answer.LikeNumber+1, answerid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
 	}
 	return ""
 }
 
 func (s *SUser) AddLikeComment(ctx context.Context, commentid int64, userid int64) string {
+	var comment = model.Comment{}
 	err := global.Rdb.SAdd(ctx, fmt.Sprintf("commentid:%s", string(commentid)), userid)
 	if err != nil {
-		return "like today"
+		return "error"
 	}
-
+	sqlStr := "SELECT id,comment,answerid,likenumber,writerid,creat_time,update_time FROM comment_subject where id = ?"
+	err1 := global.MysqlDB.Get(&comment, sqlStr, commentid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE comment_subject set likenumber = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, comment.LikeNumber+1, commentid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
+	}
 	return ""
 }
 
 func (s *SUser) AddLikeArticle(ctx context.Context, articleid int64, userid int64) string {
+	var article = model.ArticleSubject{}
 	cmd := global.Rdb.SAdd(ctx, fmt.Sprintf("articleid:%s", string(articleid)), userid)
 	if cmd.Val() == 0 {
-		return "like today"
+		return "error"
+	}
+
+	sqlStr := "SELECT id,article,answer_number,like_number,writerid,creat_time,update_time FROM article_subject where id = ?"
+	err1 := global.MysqlDB.Get(&article, sqlStr, articleid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE article_subject set like_number = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, article.LikeNumber+1, articleid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
 	}
 	return ""
 }
@@ -509,33 +562,90 @@ func (s *SUser) CancelFavouriteQuestion(ctx context.Context, favouritequestionid
 }
 
 func (s *SUser) CancelLikeQuestion(ctx context.Context, questionid int64, userid int64) string {
+	var question = model.Question{}
 	cmd := global.Rdb.SRem(ctx, fmt.Sprintf("questionid:%s", string(questionid)), userid)
 	if cmd.Val() == 0 {
-		return "question didn't be liked "
+		return "error"
+	}
+
+	sqlStr := "SELECT id,question,answer_number,askerid,creat_time,update_time FROM question_subject where id = ?"
+	err1 := global.MysqlDB.Get(&question, sqlStr, questionid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE question_subject set like_number = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, question.LikeNumber-1, questionid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
 	}
 	return ""
 }
 
 func (s *SUser) CancelLikeComment(ctx context.Context, commentid int64, userid int64) string {
+	var comment = model.Comment{}
 	cmd := global.Rdb.SRem(ctx, fmt.Sprintf("commentid:%s", string(commentid)), userid)
 	if cmd.Val() == 0 {
-		return "comment didn't be liked "
+		return "error "
 	}
+
+	sqlStr := "SELECT id,comment,answerid,likenumber,writerid,creat_time,update_time FROM comment_subject where id = ?"
+	err1 := global.MysqlDB.Get(&comment, sqlStr, commentid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE comment_subject set likenumber = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, comment.LikeNumber-1, commentid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
+	}
+
 	return ""
 }
 
 func (s *SUser) CancelLikeAnswer(ctx context.Context, answerid int64, userid int64) string {
+	var answer = model.AnswerSubject{}
 	err := global.Rdb.SRem(ctx, fmt.Sprintf("answerid:%s", string(answerid)), userid)
 	if err != nil {
-		return "answer didn't be liked"
+		return "error"
+	}
+
+	sqlStr := "SELECT id,answer,comment_number,likenumber,comment_number,writerid,creat_time,update_time FROM answer_subject where id = ?"
+	err1 := global.MysqlDB.Get(&answer, sqlStr, answerid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE answer_subject set likenumber = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, answer.LikeNumber-1, answerid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
 	}
 	return ""
 }
 
 func (s *SUser) CancelLikeArticle(ctx context.Context, articleid int64, userid int64) string {
+	var article = model.ArticleSubject{}
 	cmd := global.Rdb.SRem(ctx, fmt.Sprintf("articleid:%s", string(articleid)), userid)
 	if cmd.Val() == 0 {
-		return "article didn't be liked"
+		return "error"
+	}
+
+	sqlStr := "SELECT id,article,answer_number,like_number,writerid,creat_time,update_time FROM article_subject where id = ?"
+	err1 := global.MysqlDB.Get(&article, sqlStr, articleid)
+	if err1 != nil {
+		fmt.Print(err1)
+		return "error"
+	}
+	sqlstr := "UPDATE article_subject set like_number = ?where id = ?"
+	_, err2 := global.MysqlDB.Exec(sqlstr, article.LikeNumber-1, articleid)
+	if err2 != nil {
+		fmt.Print(err2)
+		return "error"
 	}
 	return ""
 }

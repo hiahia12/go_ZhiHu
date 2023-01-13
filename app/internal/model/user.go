@@ -21,7 +21,7 @@ type AnswerSubject struct {
 	Answer        string    `gorm:"column:answer" json:"answer" form:"answer" db:"answer"`
 	Writerid      int64     `gorm:"column:writerid" json:"writerid" form:"writerid" db:"writerid"`
 	Questionid    int64     `gorm:"column:questionid" json:"questionid" form:"questionid" db:"questionid"`
-	Like          int       `gorm:"column:like" json:"like" form:"like" db:"like"`
+	LikeNumber    int       `gorm:"column:like" json:"likenumber" form:"likenumber" db:"likenumber"`
 	CommentNumber int       `gorm:"column:comment_number" json:"comment_number" form:"comment_number" db:"comment_number"`
 	CreatTime     time.Time `gorm:"column:creat_time;autoCreateTime" json:"creat_time" form:"creat_time" db:"creat_time"`
 	UpdateTime    time.Time `gorm:"column:update_time;autoCreateTime" json:"update_time" form:"update_time" db:"update_time"`
@@ -32,6 +32,7 @@ type Question struct {
 	Question     string    `gorm:"column:question" json:"question" form:"question" db:"question"`
 	Askerid      int64     `gorm:"column:askerid" json:"askerid" form:"askerid" db:"askerid"`
 	AnswerNumber int       `gorm:"column:answer_number" json:"answer_number" form:"answer_number" db:"answer_number"`
+	LikeNumber   int       `gorm:"column:like_number" json:"like_number" form:"like_number" db:"like_number"`
 	CreatTime    time.Time `gorm:"column:creat_time;autoCreateTime" json:"creat_time" form:"creat_time" db:"creat_time"`
 	UpdateTime   time.Time `gorm:"column:update_time;autoCreateTime" json:"update_time" form:"update_time" db:"update_time"`
 }
@@ -48,7 +49,7 @@ type ArticleSubject struct {
 type Comment struct {
 	Id         int64     `gorm:"column:id" json:"id" form:"id" db:"id"`
 	Comment    string    `gorm:"column:comment" json:"comment" form:"comment" db:"comment"`
-	Like       int       `gorm:"column:like" json:"like" form:"like" db:"like"`
+	LikeNumber int       `gorm:"column:likenumber" json:"likenumber" form:"likenumber" db:"likenumber"`
 	Answerid   int64     `gorm:"column:answerid" json:"answerid" form:"answerid" db:"answerid"`
 	Writerid   int64     `gorm:"column:writerid" json:"writerid" form:"writerid" db:"writerid"`
 	CreatTime  time.Time `gorm:"column:creat_time;autoCreateTime" json:"creat_time" form:"creat_time" db:"creat_time"`
